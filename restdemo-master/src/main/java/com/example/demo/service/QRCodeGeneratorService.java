@@ -1,6 +1,7 @@
 //QRCodeGeneratorService
 package com.example.demo.service;
 
+import java.util.Base64;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -17,12 +18,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@SuppressWarnings("deprecation")
 @Slf4j
 @Service
 public class QRCodeGeneratorService {
@@ -38,47 +41,45 @@ public class QRCodeGeneratorService {
     @Value("${qrcode.output.directory:./qrcodes}")
     private String outputLocation;
 
-    public void generateQRCode(String message) {
-        log.info("### Generating QR Code ###");
+    public String generateQRCodeAsBase64(String message) {
         try {
-            if (StringUtils.isBlank(message)) {
-                log.warn("Empty or blank message received for QR code generation.");
-                return;
-            }
+            BitMatrix matrix = new MultiFormatWriter()
+                    .encode(message, BarcodeFormat.QR_CODE, WIDTH, HEIGHT);
 
-            String outputPath = prepareOutputFilename();
-            createDirectoryIfNotExists(outputLocation);
-            processQRCode(message, outputPath, CHARSET, WIDTH, HEIGHT);
-            log.info("QR Code generated at {}", outputPath);
-        } catch (WriterException | IOException e) {
-            log.error("Error while generating QR Code", e);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(matrix, "PNG", outputStream);
+            return Base64.getEncoder().encodeToString(outputStream.toByteArray());
+
+        } catch (Exception e) {
+            log.error("Error generating QR Base64", e);
+            return null;
         }
     }
 
-    private String prepareOutputFilename() {
-        String timestamp = new SimpleDateFormat(DATE_FORMAT).format(new Date());
-        return outputLocation + File.separator + "QRCode_" + timestamp + ".png";
-    }
-
-    private void createDirectoryIfNotExists(String directoryPath) {
-        File dir = new File(directoryPath);
-        if (!dir.exists()) {
-            boolean created = dir.mkdirs();
-            if (created) {
-                log.info("Created output directory: {}", directoryPath);
-            } else {
-                log.warn("Failed to create output directory: {}", directoryPath);
-            }
-        }
-    }
-
-    private void processQRCode(String data, String filePath, String charset, int width, int height)
-            throws WriterException, IOException {
-
-        BitMatrix matrix = new MultiFormatWriter()
-                .encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, width, height);
-
-        Path path = new File(filePath).toPath();
-        MatrixToImageWriter.writeToPath(matrix, "PNG", path);
-    }
+//    private String prepareOutputFilename() {
+//        String timestamp = new SimpleDateFormat(DATE_FORMAT).format(new Date());
+//        return outputLocation + File.separator + "QRCode_" + timestamp + ".png";
+//    }
+//
+//    private void createDirectoryIfNotExists(String directoryPath) {
+//        File dir = new File(directoryPath);
+//        if (!dir.exists()) {
+//            boolean created = dir.mkdirs();
+//            if (created) {
+//                log.info("Created output directory: {}", directoryPath);
+//            } else {
+//                log.warn("Failed to create output directory: {}", directoryPath);
+//            }
+//        }
+//    }
+//
+//    private void processQRCode(String data, String filePath, String charset, int width, int height)
+//            throws WriterException, IOException {
+//
+//        BitMatrix matrix = new MultiFormatWriter()
+//                .encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, width, height);
+//
+//        Path path = new File(filePath).toPath();
+//        MatrixToImageWriter.writeToPath(matrix, "PNG", path);
+//    }
 }
