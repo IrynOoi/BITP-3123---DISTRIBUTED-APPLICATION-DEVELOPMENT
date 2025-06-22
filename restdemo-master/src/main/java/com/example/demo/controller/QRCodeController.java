@@ -29,9 +29,10 @@ public class QRCodeController {
         
         try {
             // Create check-in URL
-            String checkInUrl = String.format("http://yourappdomain.com/checkin/qr?userId=%s&eventId=%s", 
-                                         userId, eventId);
-            log.info("Generating QR Code for URL: {}", checkInUrl);
+        	String baseUrl = "  https://mycheckinapp.loca.lt/eventgo_db/checkin"; 
+
+        	String checkInUrl = String.format("%s?userId=%s&eventId=%s", baseUrl, userId, eventId);
+
             
             // Generate QR code bytes
             byte[] qrCodeBytes = qrCodeGeneratorService.generateQRCodeImageBytes(checkInUrl);

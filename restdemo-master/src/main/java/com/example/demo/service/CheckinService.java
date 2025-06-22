@@ -2,11 +2,8 @@
 package com.example.demo.service;
 
 import com.example.demo.repository.CheckinRepository;
-import com.google.common.base.Optional;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import antlr.debug.Event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,25 +18,27 @@ public class CheckinService {
     @Autowired
     private CheckinRepository checkinRepository;
 
-    public void markUserCheckedIn(String userIdStr, String eventIdStr) {
-        int userId = Integer.parseInt(userIdStr);
-        int eventId = Integer.parseInt(eventIdStr);
+    // Use int parameters for userId and eventId directly for type safety
+    public void markUserCheckedIn(int userId, int eventId) {
+        // Perform check-in in DB
+        checkinRepository.checkinUserInMySQL(userId, eventId);
 
-       checkinRepository.checkinUserInMySQL(userId, eventId);
-       syncCheckinToFirebase(eventIdStr, userIdStr);
+//        // Sync check-in info to Firebase
+//        syncCheckinToFirebase(eventId, userId);
     }
 
-    public void syncCheckinToFirebase(String eventIdStr, String userIdStr) {
+    private void syncCheckinToFirebase(int eventId, int userId) {
         DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
-        firebaseRef.child("event-qrcodes").child(eventIdStr)
-            .child("checkins").child(userIdStr)
-            .setValueAsync(LocalDateTime.now().toString());
+        firebaseRef.child("event-qrcodes")
+                   .child(String.valueOf(eventId))
+                   .child("checkins")
+                   .child(String.valueOf(userId))
+                   .setValueAsync(LocalDateTime.now().toString());
     }
-    
- // New QR-based check-in processing
+
+    // QR-based check-in method with int userId
     @Transactional
-    public void processQRCheckIn(String userId, String qrToken) {
-        int userIdInt = Integer.parseInt(userId);
-        checkinRepository.checkinByQRToken(userIdInt, qrToken);
+    public void processQRCheckIn(int userId, String qrToken) {
+        checkinRepository.checkinByQRToken(userId, qrToken);
     }
 }
