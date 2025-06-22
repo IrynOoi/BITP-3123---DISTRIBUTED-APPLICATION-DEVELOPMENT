@@ -1,60 +1,79 @@
 //QRCodeGeneratorService
 package com.example.demo.service;
 
-import java.util.Base64;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-
-import lombok.extern.slf4j.Slf4j;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.Base64; // Correct import for Base64
 import java.util.Date;
 
-@SuppressWarnings("deprecation")
-@Slf4j
 @Service
 public class QRCodeGeneratorService {
 
     private static final Logger log = LoggerFactory.getLogger(QRCodeGeneratorService.class);
-
-    private static final String CHARSET = "UTF-8";
     private static final int WIDTH = 400;
     private static final int HEIGHT = 400;
     private static final String DATE_FORMAT = "yyyyMMddHHmmss";
 
-    // Inject output directory from application.properties (e.g. qrcode.output.directory=./qrcodes)
     @Value("${qrcode.output.directory:./qrcodes}")
     private String outputLocation;
 
+    // Generates QR code and saves to file, returns file path
+    public Path generateQRCodeAsFile(String message) throws WriterException, IOException {
+        // Generate QR code bytes
+        byte[] qrCodeBytes = generateQRCodeImageBytes(message);
+        
+        // Prepare output path
+        Path outputPath = prepareOutputPath();
+        
+        // Ensure directory exists
+        Files.createDirectories(outputPath.getParent());
+        
+        // Write to file
+        Files.write(outputPath, qrCodeBytes);
+        
+        log.info("QR code saved to: {}", outputPath);
+        return outputPath;
+    }
+
+    // Generates QR code as byte array (PNG format)
+    public byte[] generateQRCodeImageBytes(String message) throws WriterException, IOException {
+        BitMatrix matrix = new MultiFormatWriter().encode(message, BarcodeFormat.QR_CODE, WIDTH, HEIGHT);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        MatrixToImageWriter.writeToStream(matrix, "PNG", outputStream);
+        return outputStream.toByteArray();
+    }
+
+    // Generates Base64 encoded string (for other use cases)
     public String generateQRCodeAsBase64(String message) {
         try {
-            BitMatrix matrix = new MultiFormatWriter()
-                    .encode(message, BarcodeFormat.QR_CODE, WIDTH, HEIGHT);
-
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            MatrixToImageWriter.writeToStream(matrix, "PNG", outputStream);
-            return Base64.getEncoder().encodeToString(outputStream.toByteArray());
-
+            return Base64.getEncoder().encodeToString(generateQRCodeImageBytes(message));
         } catch (Exception e) {
             log.error("Error generating QR Base64", e);
             return null;
         }
     }
+
+    // Prepares output file path with timestamp
+    private Path prepareOutputPath() {
+        String timestamp = new SimpleDateFormat(DATE_FORMAT).format(new Date());
+        String fileName = "QRCode_" + timestamp + ".png";
+        return Paths.get(outputLocation, fileName);
+    }
+}
 
 //    private String prepareOutputFilename() {
 //        String timestamp = new SimpleDateFormat(DATE_FORMAT).format(new Date());
@@ -82,4 +101,4 @@ public class QRCodeGeneratorService {
 //        Path path = new File(filePath).toPath();
 //        MatrixToImageWriter.writeToPath(matrix, "PNG", path);
 //    }
-}
+

@@ -1,29 +1,52 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Event;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
 
 @Repository
-public interface EventRepository extends JpaRepository<Event, Integer> {
+public class EventRepository {
 
-    // Get events by user (admin) ID
-    @Query(value = "SELECT * FROM event WHERE user_id = :userId", nativeQuery = true)
-    List<Event> findEventsByUserId(@Param("userId") int userId);
+    private final JdbcTemplate jdbcTemplate;
 
-    // Find event by QR token
-    @Query(value = "SELECT * FROM event WHERE qrcode_token = :token", nativeQuery = true)
-    Event findByQrCodeToken(@Param("token") String token);
+    @Autowired
+    public EventRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
-    // Get events at a specific location
-    @Query(value = "SELECT * FROM event WHERE location = :location", nativeQuery = true)
-    List<Event> findEventsByLocation(@Param("location") String location);
+    public Optional<Event> findByQrcodeToken(String qrToken) {
+        String sql = "SELECT * FROM event WHERE qrcode_token = ?";
+        
+        try {
+            Event event = jdbcTemplate.queryForObject(sql, new EventRowMapper(), qrToken);
+            return Optional.ofNullable(event);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
 
-    // Get future events
-    @Query(value = "SELECT * FROM event WHERE start_datetime > NOW()", nativeQuery = true)
-    List<Event> findUpcomingEvents();
+    private static class EventRowMapper implements RowMapper<Event> {
+        @Override
+        public Event mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Event event = new Event();
+            event.setEventId(rs.getInt("event_id"));
+            event.setTitle(rs.getString("title"));
+            event.setDescription(rs.getString("description"));
+            event.setEndDateTime(rs.getTimestamp("start_datetime").toLocalDateTime());
+            event.setEndDateTime(rs.getTimestamp("end_datetime").toLocalDateTime());
+            event.setLocation(rs.getString("location"));
+            event.setCapacity(rs.getInt("capacity"));
+            event.setUserId(rs.getInt("user_id"));
+            event.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+            event.setQrcodeToken(rs.getString("qrcode_token"));
+            event.setFirestorePath(rs.getString("firestore_path"));
+            return event;
+        }
+    }
 }

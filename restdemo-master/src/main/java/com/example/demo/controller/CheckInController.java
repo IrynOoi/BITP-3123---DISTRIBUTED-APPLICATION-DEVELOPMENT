@@ -50,32 +50,35 @@ public class CheckInController {
     }
     
     
-//    @PostMapping("/checkin")
-//    public ResponseEntity<String> checkIn(@RequestBody Map<String, String> payload) {
-//        String userId = payload.get("userId");
-//        String eventId = payload.get("eventId");
-//
-//        if (userId == null || eventId == null) {
-//            return ResponseEntity.badRequest().body("Missing userId or eventId");
-//        }
-//
-//        try {
-//            checkinService.markUserCheckedIn(userId, eventId);
-//            return ResponseEntity.ok("User " + userId + " checked in successfully for event " + eventId);
-//        } catch (DataAccessException e) {
-//            Throwable rootCause = e.getMostSpecificCause();
-//            if (rootCause instanceof IllegalArgumentException || rootCause instanceof IllegalStateException) {
-//                return ResponseEntity.badRequest().body(rootCause.getMessage());
-//            }
-//            e.printStackTrace();
-//            return ResponseEntity.status(500).body("Database error");
-//        } catch (IllegalArgumentException | IllegalStateException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(500).body("Internal server error");
-//        }
-//    }
+    @PostMapping("/checkin/qr")
+    public ResponseEntity<String> checkInByQR(@RequestBody Map<String, String> payload)
+    {
+        String userId = payload.get("userId");
+        String qrToken = payload.get("qrToken");
+
+        if (userId == null || qrToken == null) {
+            return ResponseEntity.badRequest().body("Missing userId or QR token");
+        }
+
+        try {
+            checkinService.processQRCheckIn(userId, qrToken);
+            return ResponseEntity.ok("Checked in successfully via QR");
+        } catch (DataAccessException e) {
+            Throwable rootCause = e.getMostSpecificCause();
+            if (rootCause instanceof IllegalArgumentException 
+                || rootCause instanceof IllegalStateException) {
+                return ResponseEntity.badRequest().body(rootCause.getMessage());
+            } else {
+                e.printStackTrace();
+                return ResponseEntity.status(500).body("Database error");
+            }
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Internal server error");
+        }
+    }
 
     @GetMapping("/ping")
     public String ping() {
