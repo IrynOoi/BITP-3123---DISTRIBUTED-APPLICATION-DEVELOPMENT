@@ -1,6 +1,9 @@
+//CheckInController.java
 package com.example.demo.controller;
 
+import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -11,72 +14,78 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.Checkin;
+import com.example.demo.model.Registration;
+import com.example.demo.repository.CheckinRepository;
+import com.example.demo.repository.RegistrationRepository;
 import com.example.demo.service.CheckinService;
 
 @RestController
 public class CheckInController {
 
+ 
     @Autowired
-    private CheckinService checkinService;
+    private RegistrationRepository registrationRepository;
+
+    @Autowired
+    private CheckinRepository checkinRepository;
 
     @GetMapping("/checkin")
-    public ResponseEntity<String> checkIn(@RequestParam int userId, @RequestParam int eventId) 
-    {
-        try {
-           
-            return ResponseEntity.ok("User " + userId + " has checked in for event " + eventId);
-        } catch (DataAccessException e) {
-            Throwable rootCause = e.getMostSpecificCause();
+    public ResponseEntity<String> checkInUser(@RequestParam int userId, @RequestParam int eventId) {
+        Registration registration = registrationRepository
+            .findByUserIdAndEventIdAndStatus(userId, eventId, Registration.STATUS_APPROVED)
+            .orElseThrow(() -> new IllegalArgumentException("Registration not found or not approved for user " + userId + " and event " + eventId));
 
-            if (rootCause instanceof IllegalArgumentException || rootCause instanceof IllegalStateException) {
-                return ResponseEntity.badRequest().body(rootCause.getMessage());
-            } else {
-                e.printStackTrace();
-                return ResponseEntity.status(500).body("Database error");
-            }
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Internal server error");
+        int registrationId = registration.getRegistrationId();
+
+        Optional<Checkin> optionalCheckin = checkinRepository.findByRegistrationId(registrationId);
+
+        if (optionalCheckin.isPresent()) {
+            Checkin checkin = optionalCheckin.get();
+            checkin.setCheckinTime(LocalDateTime.now());
+            checkinRepository.save(checkin);
+            return ResponseEntity.ok("You have already checked in, time updated.");
+        } else {
+            Checkin newCheckin = new Checkin(registrationId, LocalDateTime.now());
+            checkinRepository.save(newCheckin);
+            return ResponseEntity.ok("Check-in successful.");
         }
     }
 
-    @PostMapping("/checkin/qr")
-    public ResponseEntity<String> checkInByQR(@RequestBody Map<String, String> payload) {
-        String userIdStr = payload.get("userId");
-        String qrToken = payload.get("qrToken");
-
-        if (userIdStr == null || qrToken == null) {
-            return ResponseEntity.badRequest().body("Missing userId or QR token");
-        }
-
-        int userId;
-        try {
-            userId = Integer.parseInt(userIdStr);
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body("Invalid userId format");
-        }
-
-        try {
-            checkinService.processQRCheckIn(userId, qrToken);
-            return ResponseEntity.ok("Checked in successfully via QR");
-        } catch (DataAccessException e) {
-            Throwable rootCause = e.getMostSpecificCause();
-            if (rootCause instanceof IllegalArgumentException || rootCause instanceof IllegalStateException) {
-                return ResponseEntity.badRequest().body(rootCause.getMessage());
-            } else {
-                e.printStackTrace();
-                return ResponseEntity.status(500).body("Database error");
-            }
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Internal server error");
-        }
-    }
+//    @PostMapping("/checkin/qr")
+//    public ResponseEntity<String> checkInByQR(@RequestBody Map<String, String> payload) {
+//        String userIdStr = payload.get("userId");
+//        String qrToken = payload.get("qrToken");
+//
+//        if (userIdStr == null || qrToken == null) {
+//            return ResponseEntity.badRequest().body("Missing userId or QR token");
+//        }
+//
+//        int userId;
+//        try {
+//            userId = Integer.parseInt(userIdStr);
+//        } catch (NumberFormatException e) {
+//            return ResponseEntity.badRequest().body("Invalid userId format");
+//        }
+//
+//        try {
+//            checkinService.processQRCheckIn(userId, qrToken);
+//            return ResponseEntity.ok("Checked in successfully via QR");
+//        } catch (DataAccessException e) {
+//            Throwable rootCause = e.getMostSpecificCause();
+//            if (rootCause instanceof IllegalArgumentException || rootCause instanceof IllegalStateException) {
+//                return ResponseEntity.badRequest().body(rootCause.getMessage());
+//            } else {
+//                e.printStackTrace();
+//                return ResponseEntity.status(500).body("Database error");
+//            }
+//        } catch (IllegalArgumentException | IllegalStateException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(500).body("Internal server error");
+//        }
+//    }
 
     @GetMapping("/ping")
     public String ping() {

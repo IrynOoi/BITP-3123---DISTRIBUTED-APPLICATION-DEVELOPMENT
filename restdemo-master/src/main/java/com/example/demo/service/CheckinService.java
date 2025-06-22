@@ -1,44 +1,45 @@
-// CheckinService.java
+//CheckinRepository.java
 package com.example.demo.service;
 
-import com.example.demo.repository.CheckinRepository;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
-import javax.transaction.Transactional;
+import com.example.demo.model.Checkin;
+import com.example.demo.model.Registration;
+import com.example.demo.repository.CheckinRepository;
+import com.example.demo.repository.RegistrationRepository;
 
 @Service
 public class CheckinService {
 
     @Autowired
+    private RegistrationRepository registrationRepository;
+
+    @Autowired
     private CheckinRepository checkinRepository;
 
-    // Use int parameters for userId and eventId directly for type safety
-    public void markUserCheckedIn(int userId, int eventId) {
-        // Perform check-in in DB
-        checkinRepository.checkinUserInMySQL(userId, eventId);
+    public String checkInUser(int userId, int eventId) {
+        Registration registration = registrationRepository
+            .findByUserIdAndEventIdAndStatus(userId, eventId, Registration.STATUS_APPROVED)
+            .orElseThrow(() -> new IllegalArgumentException("Registration not found or not approved for user " + userId + " and event " + eventId));
 
-//        // Sync check-in info to Firebase
-//        syncCheckinToFirebase(eventId, userId);
+        int registrationId = registration.getRegistrationId();
+
+        Optional<Checkin> optionalCheckin = checkinRepository.findByRegistrationId(registrationId);
+
+        if (optionalCheckin.isPresent()) {
+            Checkin checkin = optionalCheckin.get();
+            checkin.setCheckinTime(LocalDateTime.now());
+            checkinRepository.save(checkin);
+            return "Check-in time updated (you have already checked in)";
+        } else {
+            Checkin newCheckin = new Checkin(registrationId, LocalDateTime.now());
+            checkinRepository.save(newCheckin);
+            return "Checked in successfully";
+        }
     }
 
-    private void syncCheckinToFirebase(int eventId, int userId) {
-        DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
-        firebaseRef.child("event-qrcodes")
-                   .child(String.valueOf(eventId))
-                   .child("checkins")
-                   .child(String.valueOf(userId))
-                   .setValueAsync(LocalDateTime.now().toString());
-    }
-
-    // QR-based check-in method with int userId
-    @Transactional
-    public void processQRCheckIn(int userId, String qrToken) {
-        checkinRepository.checkinByQRToken(userId, qrToken);
-    }
 }

@@ -29,7 +29,8 @@ public class QRCodeController {
         
         try {
             // Create check-in URL
-        	String baseUrl = "  https://mycheckinapp.loca.lt/eventgo_db/checkin"; 
+        	String baseUrl = "http://192.168.0.10:8080/eventgo_db/checkin";  // Replace with your actual IP
+
 
         	String checkInUrl = String.format("%s?userId=%s&eventId=%s", baseUrl, userId, eventId);
 

@@ -1,3 +1,5 @@
+//Checkin.java
+
 package com.example.demo.model;
 
 import java.time.LocalDateTime;
@@ -25,7 +27,9 @@ public class Checkin {
     private LocalDateTime checkinTime;
 
     // Constructors
-    public Checkin() {
+    public Checkin()
+    {
+    	
     }
 
     public Checkin(int registrationId, LocalDateTime checkinTime) {
