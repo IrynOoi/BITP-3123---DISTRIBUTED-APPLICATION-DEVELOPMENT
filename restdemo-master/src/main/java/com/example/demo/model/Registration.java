@@ -2,7 +2,6 @@
 package com.example.demo.model;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,60 +10,65 @@ public class Registration {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "registration_id")
-    private int registrationId;
+    @Column(name = "registration_id", nullable = false, updatable = false)
+    private Integer registrationId;
 
     @Column(name = "event_id", nullable = false)
-    private int eventId;
+    private Integer eventId;
 
     @Column(name = "user_id", nullable = false)
-    private int userId;
+    private Integer userId;
 
-    @Column(name = "status", nullable = false)
-    private String status = "pending";  // Default value
+    // Use String for status instead of enum
+    @Column(name = "status", nullable = false, length = 20)
+    private String status = STATUS_PENDING;
+
+    // New field from SQL: qr_token varchar(32) NOT NULL
+    @Column(name = "qr_token", length = 32, nullable = false)
+    private String qrToken;
 
     @Column(name = "registration_time", nullable = false)
     private LocalDateTime registrationTime;
 
-    // Optional: constants for allowed status values
+    // String constants for status values
     public static final String STATUS_PENDING = "pending";
     public static final String STATUS_APPROVED = "approved";
     public static final String STATUS_REJECTED = "rejected";
 
     // Constructors
-    public Registration() {
-    }
+    public Registration() {}
 
-    public Registration(int eventId, int userId, String status, LocalDateTime registrationTime) {
+    public Registration(Integer eventId, Integer userId, String status, String qrToken, LocalDateTime registrationTime) {
         this.eventId = eventId;
         this.userId = userId;
         this.status = status;
+        this.qrToken = qrToken;
         this.registrationTime = registrationTime;
     }
 
-    // Getters and Setters
-    public int getRegistrationId() {
+    // Getters and setters
+    public Integer getRegistrationId() {
         return registrationId;
     }
 
-    public void setRegistrationId(int i) {
-        this.registrationId = i;
+    public void setRegistrationId(Integer registrationId) {
+        this.registrationId = registrationId;
     }
 
-    public int getEventId() {
+    public Integer getEventId() {
         return eventId;
     }
 
-    public void setEventId(int i) {
-        this.eventId = i;
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int i) {
-        this.userId = i;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getStatus() {
@@ -72,11 +76,15 @@ public class Registration {
     }
 
     public void setStatus(String status) {
-        // Optionally add validation:
-        // if (!status.equals(STATUS_PENDING) && !status.equals(STATUS_APPROVED) && !status.equals(STATUS_REJECTED)) {
-        //     throw new IllegalArgumentException("Invalid status: " + status);
-        // }
         this.status = status;
+    }
+
+    public String getQrToken() {
+        return qrToken;
+    }
+
+    public void setQrToken(String qrToken) {
+        this.qrToken = qrToken;
     }
 
     public LocalDateTime getRegistrationTime() {

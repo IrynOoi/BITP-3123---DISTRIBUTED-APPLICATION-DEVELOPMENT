@@ -6,13 +6,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.demo.service.QRCodeGeneratorService;
-import java.io.IOException;
 import com.google.zxing.WriterException;
+
+import java.io.IOException;
 
 @RestController
 public class QRCodeController {
@@ -22,35 +25,29 @@ public class QRCodeController {
     @Autowired
     private QRCodeGeneratorService qrCodeGeneratorService;
 
-    @GetMapping(value = "/qrcode", produces = "image/png")
-    public ResponseEntity<Resource> generateUserQRCode(
-            @RequestParam String userId, 
-            @RequestParam String eventId) {
-        
+    @GetMapping(value = "/api/generateQR", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<Resource> generateQRCode(
+            @RequestParam("event_id") String eventId,
+            @RequestParam("qr_token") String qrToken) {
+
         try {
-            // Create check-in URL
-        	String baseUrl = "http://192.168.0.10:8080/eventgo_db/checkin";  // Replace with your actual IP
+            // Build a check-in URL including both eventId and qrToken
+            String baseUrl = "http://192.168.0.10:8080/eventgo_db/checkin";
+            String checkInUrl = baseUrl + "?eventId=" + eventId + "&qrToken=" + qrToken;
 
 
-        	String checkInUrl = String.format("%s?userId=%s&eventId=%s", baseUrl, userId, eventId);
-
-            
             // Generate QR code bytes
             byte[] qrCodeBytes = qrCodeGeneratorService.generateQRCodeImageBytes(checkInUrl);
-            
-            // Prepare response
+
             ByteArrayResource resource = new ByteArrayResource(qrCodeBytes);
-            
+
             return ResponseEntity.ok()
-                    .header("Content-Disposition", "attachment; filename=qrcode.png")
-                    .header("Content-Type", "image/png")
                     .contentLength(qrCodeBytes.length)
+                    .contentType(MediaType.IMAGE_PNG)
                     .body(resource);
+
         } catch (WriterException | IOException e) {
             log.error("QR generation failed", e);
-            return ResponseEntity.status(500).body(null);
-        } catch (Exception e) {
-            log.error("Unexpected error during QR generation", e);
             return ResponseEntity.status(500).body(null);
         }
     }

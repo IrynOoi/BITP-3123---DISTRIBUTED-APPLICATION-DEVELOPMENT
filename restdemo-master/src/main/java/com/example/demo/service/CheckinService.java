@@ -21,10 +21,11 @@ public class CheckinService {
     @Autowired
     private CheckinRepository checkinRepository;
 
-    public String checkInUser(int userId, int eventId) {
+    public String checkInUser(int eventId, String qrToken) {
+        // Find approved registration by event ID and token
         Registration registration = registrationRepository
-            .findByUserIdAndEventIdAndStatus(userId, eventId, Registration.STATUS_APPROVED)
-            .orElseThrow(() -> new IllegalArgumentException("Registration not found or not approved for user " + userId + " and event " + eventId));
+            .findByEventIdAndQrTokenAndStatus(eventId, qrToken, Registration.STATUS_APPROVED)
+            .orElseThrow(() -> new IllegalArgumentException("No approved registration found for this QR token and event."));
 
         int registrationId = registration.getRegistrationId();
 
@@ -34,12 +35,13 @@ public class CheckinService {
             Checkin checkin = optionalCheckin.get();
             checkin.setCheckinTime(LocalDateTime.now());
             checkinRepository.save(checkin);
-            return "Check-in time updated (you have already checked in)";
+            return "Check-in time updated (already checked in before).";
         } else {
             Checkin newCheckin = new Checkin(registrationId, LocalDateTime.now());
             checkinRepository.save(newCheckin);
-            return "Checked in successfully";
+            return "Check-in successful.";
         }
     }
 
 }
+

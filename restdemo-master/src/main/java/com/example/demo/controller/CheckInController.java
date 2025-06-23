@@ -31,12 +31,11 @@ public class CheckInController
     @Autowired
     private CheckinRepository checkinRepository;
 
-    @PostMapping("/checkin")
-    public ResponseEntity<String> checkInUser(@RequestParam int userId, @RequestParam int eventId)
-    {
+    @GetMapping("/checkin")
+    public ResponseEntity<String> checkInWithToken(@RequestParam int eventId, @RequestParam String qrToken) {
         Registration registration = registrationRepository
-            .findByUserIdAndEventIdAndStatus(userId, eventId, Registration.STATUS_APPROVED)
-            .orElseThrow(() -> new IllegalArgumentException("Registration not found or not approved for user " + userId + " and event " + eventId));
+            .findByEventIdAndQrTokenAndStatus(eventId, qrToken, Registration.STATUS_APPROVED)
+            .orElseThrow(() -> new IllegalArgumentException("No approved registration found for this QR token and event."));
 
         int registrationId = registration.getRegistrationId();
 
@@ -46,7 +45,7 @@ public class CheckInController
             Checkin checkin = optionalCheckin.get();
             checkin.setCheckinTime(LocalDateTime.now());
             checkinRepository.save(checkin);
-            return ResponseEntity.ok("You have already checked in, time updated.");
+            return ResponseEntity.ok("Already checked in. Time updated.");
         } else {
             Checkin newCheckin = new Checkin(registrationId, LocalDateTime.now());
             checkinRepository.save(newCheckin);
