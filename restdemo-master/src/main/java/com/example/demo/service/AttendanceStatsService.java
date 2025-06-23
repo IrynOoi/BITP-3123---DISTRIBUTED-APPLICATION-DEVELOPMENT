@@ -21,7 +21,7 @@ public class AttendanceStatsService {
     }
 
     // ✅ Add this method to resolve controller error
-    public AttendanceStats getStatsByEventId(String eventId) 
+    public AttendanceStats getStatsByEventId(Integer eventId) 
     {
         return attendanceStatsRepository.findByEventId(eventId);
     }

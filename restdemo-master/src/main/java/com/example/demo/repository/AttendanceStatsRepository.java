@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AttendanceStatsRepository extends JpaRepository<AttendanceStats, Integer>
 {
 
-	AttendanceStats findByEventId(String eventId);
+	AttendanceStats findByEventId(Integer eventId);
     // No extra methods are needed for now.
     // JpaRepository already includes useful ones such as findAll(), findById(), save(), delete(), etc.
 }
