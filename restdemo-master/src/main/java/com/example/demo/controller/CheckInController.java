@@ -32,7 +32,8 @@ public class CheckInController
     private CheckinRepository checkinRepository;
 
     @PostMapping("/checkin")
-    public ResponseEntity<String> checkInUser(@RequestParam int userId, @RequestParam int eventId) {
+    public ResponseEntity<String> checkInUser(@RequestParam int userId, @RequestParam int eventId)
+    {
         Registration registration = registrationRepository
             .findByUserIdAndEventIdAndStatus(userId, eventId, Registration.STATUS_APPROVED)
             .orElseThrow(() -> new IllegalArgumentException("Registration not found or not approved for user " + userId + " and event " + eventId));

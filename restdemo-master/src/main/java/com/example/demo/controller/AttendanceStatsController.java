@@ -1,31 +1,33 @@
-//AttendanceStatsController.java
+//AttendanceStasController.java
 package com.example.demo.controller;
 
-import com.example.demo.model.AttendanceStats;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+import com.example.demo.model.Event; // Ensure Event class has event_id and title
 import com.example.demo.service.AttendanceStatsService;
-import org.springframework.web.bind.annotation.*;
+import com.example.demo.service.EventService;
 
 import java.util.List;
 
-
-//return all events attendance report for bar cbart generation(frontend)
 @RestController
-@RequestMapping("/api/attendance")
-public class AttendanceStatsController 
-{
+@RequestMapping("/api")
+public class AttendanceStatsController {
 
     private final AttendanceStatsService attendanceStatsService;
+    private final EventService eventService;
 
-    public AttendanceStatsController(AttendanceStatsService attendanceStatsService) {
+    public AttendanceStatsController(AttendanceStatsService attendanceStatsService, EventService eventService) {
         this.attendanceStatsService = attendanceStatsService;
+        this.eventService = eventService;
     }
 
-    @GetMapping("/report")
-    public List<AttendanceStats> getAttendanceReport() 
-    {
-        return attendanceStatsService.getAllAttendanceStats();
+    @GetMapping("/attendance-events")
+    public List<Event> getAllEvents() {
+        return eventService.getAllEvents();
     }
-    
-    
-    
 }
+
+

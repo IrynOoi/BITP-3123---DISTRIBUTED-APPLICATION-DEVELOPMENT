@@ -19,4 +19,10 @@ public class AttendanceStatsService {
     public List<AttendanceStats> getAllAttendanceStats() {
         return attendanceStatsRepository.findAll();
     }
+
+    // ✅ Add this method to resolve controller error
+    public AttendanceStats getStatsByEventId(String eventId) 
+    {
+        return attendanceStatsRepository.findByEventId(eventId);
+    }
 }
