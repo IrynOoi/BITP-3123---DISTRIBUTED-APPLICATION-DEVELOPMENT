@@ -38,7 +38,8 @@ public class Checkin {
     }
 
     // Getters and Setters
-    public int getCheckinId() {
+    public int getCheckinId() 
+    {
         return checkinId;
     }
 

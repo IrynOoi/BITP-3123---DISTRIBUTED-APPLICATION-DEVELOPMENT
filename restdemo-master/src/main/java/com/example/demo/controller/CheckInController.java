@@ -21,7 +21,8 @@ import com.example.demo.repository.RegistrationRepository;
 import com.example.demo.service.CheckinService;
 
 @RestController
-public class CheckInController {
+public class CheckInController 
+{
 
  
     @Autowired
@@ -30,7 +31,7 @@ public class CheckInController {
     @Autowired
     private CheckinRepository checkinRepository;
 
-    @GetMapping("/checkin")
+    @PostMapping("/checkin")
     public ResponseEntity<String> checkInUser(@RequestParam int userId, @RequestParam int eventId) {
         Registration registration = registrationRepository
             .findByUserIdAndEventIdAndStatus(userId, eventId, Registration.STATUS_APPROVED)
