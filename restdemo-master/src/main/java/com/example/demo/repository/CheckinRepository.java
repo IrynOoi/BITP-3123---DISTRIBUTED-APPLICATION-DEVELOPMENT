@@ -17,4 +17,3 @@ public interface CheckinRepository extends JpaRepository<Checkin, Integer>
 	Optional<Checkin> findByRegistrationId(@Param("registrationId") int registrationId);
 
 }
-
