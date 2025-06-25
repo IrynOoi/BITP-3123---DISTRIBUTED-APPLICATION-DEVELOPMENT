@@ -36,21 +36,27 @@ public class RegistrationController {
         return ResponseEntity.ok(response);
     }
 
-    // ✅ POST /api/approveRegistration
-    @PostMapping("/approveRegistration")
-    public ResponseEntity<String> approveRegistration(@RequestBody Map<String, String> payload) {
-        Integer eventId = Integer.parseInt(payload.get("event_id"));
-        Integer studentId = Integer.parseInt(payload.get("student_id"));
+ // ✅ POST /api/updateRegistrationStatus
+    @PostMapping("/updateRegistrationStatus")
+    public ResponseEntity<String> updateRegistrationStatus(@RequestBody Map<String, String> payload) {
+        try {
+            Integer eventId = Integer.parseInt(payload.get("event_id"));
+            Integer studentId = Integer.parseInt(payload.get("student_id"));
+            String status = payload.get("status");
 
-        Optional<Registration> regOpt = registrationRepository.findByEventIdAndUserId(eventId, studentId);
-        if (!regOpt.isPresent())  { // ✅ Correct null check
-            return ResponseEntity.status(404).body("Registration not found.");
+            Optional<Registration> regOpt = registrationRepository.findByEventIdAndUserId(eventId, studentId);
+            if (!regOpt.isPresent()) {
+                return ResponseEntity.status(404).body("Registration not found.");
+            }
+
+            Registration registration = regOpt.get();
+            registration.setStatus(status);
+            registrationRepository.save(registration);
+
+            return ResponseEntity.ok("Status updated to " + status);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("Invalid request: " + e.getMessage());
         }
-
-        Registration registration = regOpt.get();
-        registration.setStatus(Registration.STATUS_APPROVED);
-        registrationRepository.save(registration);
-
-        return ResponseEntity.ok("Registration approved");
     }
+
 }
