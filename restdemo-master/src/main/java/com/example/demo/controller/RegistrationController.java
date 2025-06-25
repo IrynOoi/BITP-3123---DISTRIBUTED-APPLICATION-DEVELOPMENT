@@ -3,7 +3,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Registration;
+import com.example.demo.model.User;
 import com.example.demo.repository.RegistrationRepository;
+import com.example.demo.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +19,11 @@ public class RegistrationController {
 
     @Autowired
     private RegistrationRepository registrationRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
-    // ✅ GET /api/registrations?event_id=123
+ // ✅ GET /api/registrations?event_id=123
     @GetMapping("/registrations")
     public ResponseEntity<List<Map<String, String>>> getRegistrationsByEventId(@RequestParam("event_id") Integer eventId) {
         List<Registration> registrations = registrationRepository.findAll().stream()
@@ -25,12 +31,21 @@ public class RegistrationController {
                 .collect(Collectors.toList());
 
         List<Map<String, String>> response = new ArrayList<>();
+
         for (Registration r : registrations) {
             Map<String, String> entry = new HashMap<>();
-            entry.put("student_id", r.getUserId().toString());
-            entry.put("name", "Student " + r.getUserId()); // Replace with real name if possible
-            entry.put("status", r.getStatus());
-            response.add(entry);
+            Integer userId = r.getUserId();
+
+            // ✅ Fetch user from DB
+            Optional<User> userOpt = userRepository.findById(userId);
+
+            if (userOpt.isPresent()) {
+                User user = userOpt.get();
+                entry.put("student_id", userId.toString());
+                entry.put("name", user.getName()); // ✅ Use actual name
+                entry.put("status", r.getStatus());
+                response.add(entry);
+            }
         }
 
         return ResponseEntity.ok(response);
