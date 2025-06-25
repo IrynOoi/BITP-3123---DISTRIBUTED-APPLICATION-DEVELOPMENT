@@ -51,8 +51,8 @@ public class Event {
 //    @Column(name = "qrcode_token")
 //    private String qrcodeToken;
 
-    @Column(name = "firestore_path")
-    private String firestorePath;
+//    @Column(name = "firestore_path")
+//    private String firestorePath;
 
     // Getters and Setters
 
@@ -136,11 +136,11 @@ public class Event {
 //        this.qrcodeToken = qrcodeToken;
 //    }
 
-    public String getFirestorePath() {
-        return firestorePath;
-    }
-
-    public void setFirestorePath(String firestorePath) {
-        this.firestorePath = firestorePath;
-    }
+//    public String getFirestorePath() {
+//        return firestorePath;
+//    }
+//
+//    public void setFirestorePath(String firestorePath) {
+//        this.firestorePath = firestorePath;
+//    }
 }

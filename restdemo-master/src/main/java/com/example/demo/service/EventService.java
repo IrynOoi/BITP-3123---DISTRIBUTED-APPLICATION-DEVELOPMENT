@@ -1,9 +1,12 @@
+//EventService.java
 package com.example.demo.service;
 
 import com.example.demo.model.Event;
+import com.example.demo.model.PublishActivityRequest;
 import com.example.demo.repository.EventRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,4 +22,26 @@ public class EventService {
     public List<Event> getAllEvents() {
         return eventRepository.findAll();
     }
+    
+  
+  
+
+        public Event createEvent(PublishActivityRequest request) {
+            Event event = new Event();
+
+            event.setTitle(request.getTitle());
+            event.setDescription(request.getDescription());
+            event.setStartDateTime(request.getStartDateTime());
+            event.setEndDateTime(request.getEndDateTime());
+            event.setLocation(request.getLocation());
+            event.setCapacity(request.getCapacity());
+            event.setUserId(request.getUserId());
+
+            event.setCreatedAt(LocalDateTime.now());
+//            event.setFirestorePath("events/firestore/path/" + System.currentTimeMillis());
+
+            return eventRepository.save(event);
+        }
+    
+
 }
