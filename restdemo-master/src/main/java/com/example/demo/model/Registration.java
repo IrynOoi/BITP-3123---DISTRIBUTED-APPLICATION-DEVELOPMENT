@@ -94,4 +94,6 @@ public class Registration {
     public void setRegistrationTime(LocalDateTime registrationTime) {
         this.registrationTime = registrationTime;
     }
+
+	
 }

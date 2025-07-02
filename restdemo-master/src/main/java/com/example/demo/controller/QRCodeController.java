@@ -32,7 +32,8 @@ public class QRCodeController {
 
         try {
             // Build a check-in URL including both eventId and qrToken
-            String baseUrl = "http://192.168.0.10:8080/eventgo_db/checkin";
+        	//replace locahost with ur ip address
+            String baseUrl = "http://localhost:8080/eventgo_db/checkin";
             String checkInUrl = baseUrl + "?eventId=" + eventId + "&qrToken=" + qrToken;
 
 
