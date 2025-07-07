@@ -13,9 +13,6 @@ public class User {
     @Column(name = "user_id", nullable = false, updatable = false)
     private Integer userId;
 
-    @Column(name = "firebase_uid", nullable = false, length = 28, unique = true)
-    private String firebaseUid;
-
     @Column(name = "email", nullable = false, length = 255, unique = true)
     private String email;
 
@@ -31,8 +28,7 @@ public class User {
     // Constructors
     public User() {}
 
-    public User(String firebaseUid, String email, String name, String role, LocalDateTime createdAt) {
-        this.firebaseUid = firebaseUid;
+    public User(String email, String name, String role, LocalDateTime createdAt) {
         this.email = email;
         this.name = name;
         this.role = role;
@@ -46,14 +42,6 @@ public class User {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public String getFirebaseUid() {
-        return firebaseUid;
-    }
-
-    public void setFirebaseUid(String firebaseUid) {
-        this.firebaseUid = firebaseUid;
     }
 
     public String getEmail() {
@@ -93,3 +81,4 @@ public class User {
     public static final String ROLE_REVIEWER = "reviewer";
     public static final String ROLE_PARTICIPANT = "participant";
 }
+

@@ -1,9 +1,12 @@
 //CheckInController.java
 package com.example.demo.controller;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -126,6 +129,18 @@ public class CheckInController {
 //            return ResponseEntity.status(500).body("Internal server error");
 //        }
 //    }
+    
+    
+    
+    @GetMapping("/network-info")
+    public String networkInfo() {
+        try {
+            return "Host: " + InetAddress.getLocalHost().getHostAddress() + 
+                   "\nInterfaces: " + Collections.list(NetworkInterface.getNetworkInterfaces());
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
+    }
 
     @GetMapping("/ping")
     public String ping() {
