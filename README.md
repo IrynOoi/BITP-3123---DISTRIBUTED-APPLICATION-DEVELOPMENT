@@ -110,8 +110,10 @@ Success Response:
   "createdAt": "2024-01-01T12:00:00"
 }  
 
-Error Response:
-Status: 404
+Error Response:  
+
+Status: 404  
+
 Body: (no content)
 
 
@@ -119,35 +121,53 @@ Body: (no content)
 
 3.1 POST /api/registration/{eventId} 
 
-Function: Register a user to an event.  
-Path Variable:
-eventId (integer)
-Headers:
-Authorization: Bearer <Firebase_ID_Token>
-Success Response:
-Status: 200
-Body: "Registered user <userId> to event <eventId>"
-Error Responses:
-404: User not found
-409: Already registered
+Function: Register a user to an event.   
+
+Path Variable:  
+
+eventId (integer)  
+
+**Headers:**
+Authorization: Bearer <Firebase_ID_Token>  
+
+Success Response:  
+
+Status: 200  
+
+Body: "Registered user <userId> to event <eventId>"  
+
+Error Responses:  
+
+404: User not found  
+
+409: Already registered  
+
 500: Internal error
 
 
-3.2 POST /api/registration/update-status
+3.2 POST /api/registration/update-status  
+
 Function: Update a user's registration status.
 Request Body:
 {
   "registrationId": "12",
   "status": "approved"
-}
-Success Response:
-Status: 200
+}  
+
+Success Response:  
+
+Status: 200  
+
 Body: "Status updated"
 
-3.3 GET /api/registration/registered
-Function: Retrieve all events the user has registered for.
-Headers:
-Authorization: Bearer <Firebase_ID_Token>
+3.3 GET /api/registration/registered  
+
+Function: Retrieve all events the user has registered for.  
+
+Headers:  
+
+Authorization: Bearer <Firebase_ID_Token>  
+
 Success Response:
 [
   {
@@ -157,9 +177,12 @@ Success Response:
   }
 ]
 
-3.4 GET /api/registration/byEvent?eventId=1
-Function: Retrieve list of registrations for a specific event.
-Query Parameter: eventId (integer)
+3.4 GET /api/registration/byEvent?eventId=1  
+
+Function: Retrieve list of registrations for a specific event.  
+
+Query Parameter: eventId (integer)  
+
 Success Response:
 [
   {
@@ -169,9 +192,12 @@ Success Response:
   }
 ]
 
-**4. Event API**
-4.1 GET /api/events
-Function: Get all published events.
+**4. Event API**  
+
+4.1 GET /api/events  
+
+Function: Get all published events.  
+
 Success Response:
 [
   {
@@ -182,24 +208,33 @@ Success Response:
   }
 ]
 
-4.2 GET /api/events/QRCode?eventId=1
-Function: Get QR code PNG image for the event.
-Success Response:
-Status: 200
-Content-Type: image/png
-Error Response:
+4.2 GET /api/events/QRCode?eventId=1  
+
+Function: Get QR code PNG image for the event.  
+
+Success Response:  
+
+Status: 200  
+
+Content-Type: image/png  
+
+Error Response:  
+
 404 or 500 with error message in text/plain
 
 4.3 GET /api/events/attendanceStats?event_id=1
-Function: Get attendance stats for a specific event.
+Function: Get attendance stats for a specific event.  
+
 Success Response:
 {
   "totalRegistered": 50,
   "totalCheckedIn": 35
 }
 
-4.4 POST /api/events/publish
-Function: Publish a new event.
+4.4 POST /api/events/publish  
+
+Function: Publish a new event.  
+
 Request Body:
 {
   "title": "AI Conference",
