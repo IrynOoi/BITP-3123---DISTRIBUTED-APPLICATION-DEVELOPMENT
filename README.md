@@ -340,7 +340,8 @@ The database schema for eventgo_db is structured to efficiently support an event
 
 <img width="766" height="554" alt="image" src="https://github.com/user-attachments/assets/c715d449-e94f-4af1-b42b-82f48abefb47" />
 
-**Relationships:**
+**Relationships:**  
+
 <img width="755" height="327" alt="image" src="https://github.com/user-attachments/assets/c68a552f-87e2-40d8-a22c-e351a79e2216" />
 
 These relationships ensure clean, normalized data and easy querying of participation, attendance stats, and user-event history.
