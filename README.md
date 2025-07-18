@@ -234,9 +234,10 @@ Success Response:
 
 ## Admin Frontend Application:
 
-Purpose: This application is designed for university administrators. It allows them to publish new activities, generate QR codes for sign-in, manage participant registrations, monitor attendance, and view statistics. The goal is to simplify event management within the university environment.
+**Purpose:**   
+This application is designed for university administrators. It allows them to publish new activities, generate QR codes for sign-in, manage participant registrations, monitor attendance, and view statistics. The goal is to simplify event management within the university environment.
 
-Technology Stack: 
+**Technology Stack:** 
 Language: Java
 UI Framework: Java Swing
 Charting Library: JFreeChart (for visualizing attendance statistics)
@@ -245,11 +246,11 @@ Others: Java Standard Library, ImageIcon (for QR display)
 API Integration: The Java Swing application communicates with the Firebase backend via HTTP requests using HttpURLConnection. Each action (e.g., publishing activity, fetching QR code, retrieving attendance data) triggers an API call to a Firebase Cloud Function endpoint, which interacts with Firestore. The app parses JSON responses and updates the UI accordingly.
 
 
-Student Frontend Application:
+## Student Frontend Application:
 
-Purpose: This frontend targets students and participants. It allows users to browse events, register, check registration status, and scan QR codes to sign in at events. The goal is to make the registration and attendance process smooth and digital.
+**Purpose:** This frontend targets students and participants. It allows users to browse events, register, check registration status, and scan QR codes to sign in at events. The goal is to make the registration and attendance process smooth and digital.
 
-Technology Stack: 
+**Technology Stack:** 
 Language: Java
 UI Framework: Java Swing
 Others: Java Standard Library, Webcam/QR scanning libraries (e.g., ZXing for Java)
@@ -259,7 +260,7 @@ API Integration: Similar to the admin app, the student frontend communicates wit
 
 
 
-Database Design
+## Database Design
 
 Entity-Relationship Diagram (ERD): A diagram showing the database tables, their columns (with data types), and the relationships between them (one-to-one, one-to-many).
 
