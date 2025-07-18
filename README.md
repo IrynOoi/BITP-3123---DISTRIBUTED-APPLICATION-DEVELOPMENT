@@ -1,5 +1,5 @@
 
-**Team Member Contribution:**
+## Team Member Contribution
 
 **WONG JIA XI** B032310495  
 **CHAI JIAN JIE** B032310296  
@@ -7,7 +7,7 @@
 **OOI XIEN XIEN** B032310183  
 **LOO WEN CHUAN** B032310334  
 **NG CHUN KEAT** B032310265
-=======
+
 
 
 Note: The technical documentation should be provided on Github as a Markdown readme file located at the root of your repository. The contents may include the following:
