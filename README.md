@@ -62,12 +62,14 @@ Technology Stack:
 
 ## API Documentation: 
 
-**1.Security**
+**1.Security**  
+
 All endpoints requiring user authentication use Firebase ID Token:
 Header: Authorization: Bearer <Firebase_ID_Token>
 The token is validated using Firebase Admin SDK to verify identity.  
 
-**2. User API**
+**2. User API**  
+
 2.1 POST /api/user/register
 Function: Register a new user.
 Request Body:
@@ -76,7 +78,8 @@ Request Body:
   "name": "John Doe",
   "email": "john@example.com",
   "role": "student"
-}
+}  
+
 Success Response:
 Status: 200
 Body: "User registered successfully"
@@ -227,9 +230,9 @@ Success Response:
 ]
 
 
-Frontend Applications
+## Frontend Applications
 
-Admin Frontend Application:
+## Admin Frontend Application:
 
 Purpose: This application is designed for university administrators. It allows them to publish new activities, generate QR codes for sign-in, manage participant registrations, monitor attendance, and view statistics. The goal is to simplify event management within the university environment.
 
