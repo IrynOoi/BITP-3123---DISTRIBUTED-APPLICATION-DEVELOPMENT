@@ -11,7 +11,7 @@
 
 
 Note: The technical documentation should be provided on Github as a Markdown readme file located at the root of your repository. The contents may include the following:  
-Introduction
+Introduction  
 The EventGo application is a desktop-based event management and attendance tracking system designed to support the end-to-end process of organizing, managing, and monitoring events. Developed using Java Swing within the Eclipse IDE, the application provides a graphical user interface (GUI) for both administrators and users to interact with the system. It integrates with Firebase Authentication for secure login access and utilizes MySQL or Firebase Firestore for backend data storage, ensuring a reliable and scalable architecture.
 The system is structured to manage six key business processes: event creation, user registration, registration review, QR code generation, on-site check-in, and attendance reporting. Admin users can log in via Firebase and access an interface to perform full CRUD operations on events. This allows them to create, edit, view, and delete event information directly through the application, ensuring flexible event management capabilities.
 Users can register for events using a built-in form, which captures and stores their registration with an initial status of "Pending Approval". This registration data is stored in the backend and awaits review by a designated reviewer or administrator. The review process enables authorized personnel to assess registrations and approve or reject them based on predefined criteria. The user-friendly interface streamlines this process and updates the registration status accordingly.
