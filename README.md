@@ -20,7 +20,8 @@ For registrations that are approved, the system automatically generates a QR Cod
 During on-site check-in, staff members can scan QR codes using a webcam or scanning tool integrated into the system. The scanned code is matched against the backend records to validate the registration, and the system then records the check-in time. This process ensures accurate attendance tracking and prevents unauthorized access to the event.
 Finally, the EventGo application supports real-time attendance monitoring and reporting. Administrators can generate statistics such as total registrants, actual attendance count, and event attendance rates. Reports can be exported in CSV or JSON formats, offering flexibility for analysis or archival purposes. Overall, EventGo provides a robust and efficient solution for event administration, user participation, and data-driven decision-making.  
 
-Project Overview
+Project Overview  
+
 EventGo is a desktop application built with Java Swing that simplifies event management and attendance tracking. It allows admins to create events, review registrations, and generate QR codes for approved participants. Users can register through the system, and staff can scan QR codes on-site to record attendance.
 The system uses Firebase for authentication and MySQL or Firestore for data storage. It solves common issues like manual registration, slow check-in, and poor attendance tracking by automating these processes. EventGo is ideal for schools, tuition centers, and small organizations looking for an efficient event management solution.
 
