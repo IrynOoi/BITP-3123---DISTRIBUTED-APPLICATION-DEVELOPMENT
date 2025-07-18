@@ -372,9 +372,75 @@ The Use Case Diagram provides a high-level overview of the interactions between 
 
 **Actors Involved:**
 
-Admin: Responsible for managing events, reviewing registrations, generating QR codes, and analyzing attendance.
-Student: Can view events, register for them, and check in using QR codes.
-Staff: Handles on-site QR code scanning during check-in
+Admin: Responsible for managing events, reviewing registrations, generating QR codes, and analyzing attendance.  
+
+Student: Can view events, register for them, and check in using QR codes.   
+
+<img width="464" height="969" alt="image" src="https://github.com/user-attachments/assets/8339156c-1ade-4e5c-ba75-3a46eb673461" />
+
+
+
+## Data Validation: 
+**Frontend:**
+1)Empty Field Checks:
+
+-Required input fields such as Activity Title, Venue, Date & Time, Student Name, and Email are checked before submission.
+
+
+-If any mandatory field is left blank, a warning JOptionPane message is shown and the data is not submitted.
+
+
+2)Format Validation:
+
+
+-Email addresses are validated with regular expressions to ensure they follow the correct format (e.g., example@student.utem.edu.my).
+
+
+-Numeric fields like Maximum Participants are checked to allow only digits.
+
+
+-Date/Time input via JSpinner ensures the user selects valid date values.
+
+
+3)Dropdown Selections:
+
+
+-For combo boxes (e.g., activity categories or event filters), validation ensures that users do not proceed with the default or invalid selection.
+
+
+4)QR Code Attendance:
+
+
+-In the student app, before marking attendance via QR scan, the app validates that the student has already registered for that activity.
+
+**Backend:**
+1)Email Uniqueness:
+
+
+-When a student registers for an activity, the backend checks Firestore to ensure the same email has not already registered for the same event.
+
+
+2)Activity Capacity Check:
+
+
+-Before allowing a new registration, the backend checks whether the number of current participants has reached the maximum set in the activity's max_participants field.
+
+
+3）Data Consistency & Integrity:
+
+
+-Cloud Functions validate that activity documents exist before writing registration or attendance data to avoid orphan records.
+
+
+-Attendance submissions are validated against valid QR codes (matched with backend records) to prevent spoofing or duplicate attendance.
+
+
+4）Authentication Verification (optional):
+
+
+-If Firebase Authentication is integrated, backend functions also verify user tokens before accepting sensitive write operations.
+
+
 
 
 
