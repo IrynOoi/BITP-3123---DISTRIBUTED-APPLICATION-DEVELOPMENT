@@ -288,6 +288,7 @@ These relationships ensure clean, normalized data and easy querying of participa
 Views are used to reduce complex JOIN queries in the backend logic, improving code clarity and performance.
 
 **Security and Data Integrity**
+
 Foreign Keys: Enforced on all major entity relationships (user_id, event_id, registration_id).
 
 
@@ -300,10 +301,12 @@ Business Logic and Data Validation
 
 Use Case Diagrams/Flowcharts: Illustrate the main user flows, such as "selecting a book," "borrowing a book," and "returning a book." This visually demonstrates the business logic.
 
-Use Case diagram
+**Use Case diagram**
+
 The Use Case Diagram provides a high-level overview of the interactions between different types of users (actors) and the core functionalities (use cases) of the EventGo application. It helps stakeholders understand who can perform what actions within the system.
 
- Actors Involved:
+**Actors Involved:**
+
 Admin: Responsible for managing events, reviewing registrations, generating QR codes, and analyzing attendance.
 Student: Can view events, register for them, and check in using QR codes.
 Staff: Handles on-site QR code scanning during check-in
