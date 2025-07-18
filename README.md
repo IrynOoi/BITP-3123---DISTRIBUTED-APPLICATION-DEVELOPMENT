@@ -60,13 +60,13 @@ Technology Stack:
 <img width="757" height="681" alt="image" src="https://github.com/user-attachments/assets/485b2571-8329-4cf7-99ff-150e911126a0" />
 
 
-API Documentation: 
+## API Documentation: 
 
-1.Security
+**1.Security**
 All endpoints requiring user authentication use Firebase ID Token:
 Header: Authorization: Bearer <Firebase_ID_Token>
 The token is validated using Firebase Admin SDK to verify identity.
-2. User API
+**2. User API**
 2.1 POST /api/user/register
 Function: Register a new user.
 Request Body:
@@ -99,7 +99,9 @@ Success Response:
 Error Response:
 Status: 404
 Body: (no content)
-3. Registration API
+
+
+**3. Registration API**
 3.1 POST /api/registration/{eventId}
 Function: Register a user to an event.
 Path Variable:
@@ -113,6 +115,8 @@ Error Responses:
 404: User not found
 409: Already registered
 500: Internal error
+
+
 3.2 POST /api/registration/update-status
 Function: Update a user's registration status.
 Request Body:
@@ -123,6 +127,7 @@ Request Body:
 Success Response:
 Status: 200
 Body: "Status updated"
+
 3.3 GET /api/registration/registered
 Function: Retrieve all events the user has registered for.
 Headers:
@@ -148,7 +153,7 @@ Success Response:
   }
 ]
 
-4. Event API
+**4. Event API**
 4.1 GET /api/events
 Function: Get all published events.
 Success Response:
@@ -168,6 +173,7 @@ Status: 200
 Content-Type: image/png
 Error Response:
 404 or 500 with error message in text/plain
+
 4.3 GET /api/events/attendanceStats?event_id=1
 Function: Get attendance stats for a specific event.
 Success Response:
@@ -190,10 +196,11 @@ Body: "Activity published successfully"
 Error Response:
 Status: 500
 Body: "Failed to publish activity"
+
 4.5 GET /api/events/available
 Function: List events open for registration.
 
-5. Check-in API
+**5. Check-in API**
 5.1 POST /api/checkin?qrToken=abc123
 Function: Check in a user to an event using QR token.
 Headers:
