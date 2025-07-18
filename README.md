@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 **Team Member Contribution:**
 **WONG JIA XI** B032310495  
 **CHAI JIAN JIE** B032310296  
@@ -5,3 +6,34 @@
 **OOI XIEN XIEN** B032310183  
 **LOO WEN CHUAN** B032310334  
 **NG CHUN KEAT** B032310265
+=======
+**Team Member Contribution:
+
+
+WONG JIA XI	B032310495
+
+
+CHAI JIAN JIE B032310296
+
+
+YAP ZHAN HONG B032310386
+
+
+OOI XIEN XIEN B032310183
+
+
+LOO WEN CHUAN B032310334
+
+
+NG CHUN KEAT B032310265**
+
+
+
+
+
+
+
+
+
+
+>>>>>>> aa368e2 (Save local changes before pulling)
