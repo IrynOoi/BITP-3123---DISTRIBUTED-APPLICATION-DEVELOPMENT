@@ -8,6 +8,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 @RestController
+@CrossOrigin(origins = "*") // Or specify origin
 public class QRCodeController {
 
     private static final Logger log = LoggerFactory.getLogger(QRCodeController.class);
@@ -34,8 +36,8 @@ public class QRCodeController {
         try {
             // Build a check-in URL including both eventId and qrToken
         	//replace locahost with ur ip address or tunnel ip
-        	//String baseUrl = "http://192.168.0.10:8080/eventgo_db/checkin";
-        	String baseUrl = "http://" + InetAddress.getLocalHost().getHostName() + ":8081/eventgo_db/checkin";
+       	String baseUrl = "http://10.200.66.42:8080/eventgo_db/checkin";
+//       	String baseUrl = "http://" + InetAddress.getLocalHost().getHostName() + ":8080/eventgo_db/checkin";
             String checkInUrl = baseUrl + "?eventId=" + eventId + "&qrToken=" + qrToken;
 
 

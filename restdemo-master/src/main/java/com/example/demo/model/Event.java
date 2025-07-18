@@ -48,8 +48,8 @@ public class Event {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
-//    @Column(name = "qrcode_token")
-//    private String qrcodeToken;
+    @Column(name = "qrcode_token")
+    private String qrcodeToken;
 
 //    @Column(name = "firestore_path")
 //    private String firestorePath;
@@ -127,14 +127,16 @@ public class Event {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+    
+    
 
-//    public String getQrcodeToken() {
-//        return qrcodeToken;
-//    }
-//
-//    public void setQrcodeToken(String qrcodeToken) {
-//        this.qrcodeToken = qrcodeToken;
-//    }
+    public String getQrcodeToken() {
+        return qrcodeToken;
+    }
+
+    public void setQrcodeToken(String qrcodeToken) {
+        this.qrcodeToken = qrcodeToken;
+    }
 
 //    public String getFirestorePath() {
 //        return firestorePath;

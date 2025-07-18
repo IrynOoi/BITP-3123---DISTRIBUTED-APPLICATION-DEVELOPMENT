@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class FirebaseController {
+public class FirebaseController 
+{
 
     public FirebaseController() {
         // Constructor

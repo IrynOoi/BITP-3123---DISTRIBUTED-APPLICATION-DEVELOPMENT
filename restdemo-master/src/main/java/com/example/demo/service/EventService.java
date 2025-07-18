@@ -6,6 +6,7 @@ import com.example.demo.model.PublishActivityRequest;
 import com.example.demo.repository.EventRepository;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,9 +20,26 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public List<Event> getAllEvents() {
+    public List<Event> getAllEvents()
+    {
         return eventRepository.findAll();
     }
+    
+  
+  	 public List<Event> getAllEvent()
+  	 {
+  		List <Event> events = eventRepository.findAll();
+  		return events;
+  	 }
+  	 
+//  	public String getQR_Token(Integer eventId) {
+//  	    return eventRepository.findById(eventId)
+//  	            .map(Event::getQrToken)
+//  	            .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
+//  	}
+//    
+    
+    
     
   
   
@@ -42,6 +60,10 @@ public class EventService {
 
             return eventRepository.save(event);
         }
+        
+        
+   	 // Constructor injection - make sure the constructor name matches the class name
+   	 
     
 
 }
