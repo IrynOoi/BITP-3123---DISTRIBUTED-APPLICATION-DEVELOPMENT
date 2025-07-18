@@ -11,7 +11,7 @@
 
 
 Note: The technical documentation should be provided on Github as a Markdown readme file located at the root of your repository. The contents may include the following:  
-##Introduction  
+## Introduction  
 
 The EventGo application is a desktop-based event management and attendance tracking system designed to support the end-to-end process of organizing, managing, and monitoring events. Developed using Java Swing within the Eclipse IDE, the application provides a graphical user interface (GUI) for both administrators and users to interact with the system. It integrates with Firebase Authentication for secure login access and utilizes MySQL or Firebase Firestore for backend data storage, ensuring a reliable and scalable architecture.
 The system is structured to manage six key business processes: event creation, user registration, registration review, QR code generation, on-site check-in, and attendance reporting. Admin users can log in via Firebase and access an interface to perform full CRUD operations on events. This allows them to create, edit, view, and delete event information directly through the application, ensuring flexible event management capabilities.
@@ -20,12 +20,12 @@ For registrations that are approved, the system automatically generates a QR Cod
 During on-site check-in, staff members can scan QR codes using a webcam or scanning tool integrated into the system. The scanned code is matched against the backend records to validate the registration, and the system then records the check-in time. This process ensures accurate attendance tracking and prevents unauthorized access to the event.
 Finally, the EventGo application supports real-time attendance monitoring and reporting. Administrators can generate statistics such as total registrants, actual attendance count, and event attendance rates. Reports can be exported in CSV or JSON formats, offering flexibility for analysis or archival purposes. Overall, EventGo provides a robust and efficient solution for event administration, user participation, and data-driven decision-making.  
 
-##Project Overview  
+## Project Overview  
 
 EventGo is a desktop application built with Java Swing that simplifies event management and attendance tracking. It allows admins to create events, review registrations, and generate QR codes for approved participants. Users can register through the system, and staff can scan QR codes on-site to record attendance.
 The system uses Firebase for authentication and MySQL or Firestore for data storage. It solves common issues like manual registration, slow check-in, and poor attendance tracking by automating these processes. EventGo is ideal for schools, tuition centers, and small organizations looking for an efficient event management solution.
 
-##Project Objectives
+## Project Objectives
 To automate and simplify the end-to-end event management workflow, including event creation, user registration, and approval, thereby reducing manual administrative tasks and increasing operational efficiency.
 
 
@@ -35,7 +35,7 @@ To implement a secure and accurate QR code-based check-in system, ensuring relia
 To provide real-time attendance data and exportable reports in formats such as CSV or JSON, enabling event organizers to analyze participation trends and make informed decisions for future planning.
 
 
-##Commercial Value / Third-Party Integration:   
+## Commercial Value / Third-Party Integration:   
 
 The EventGo application demonstrates strong potential for real-world commercial deployment, especially in educational institutions, training centers, corporate seminars, and community event organizations. Its modular design and desktop interface make it suitable for in-house deployment in environments where centralized control and offline accessibility are important. By automating processes such as registration approval, QR-based check-in, and attendance tracking, the system reduces administrative burden and human error, while improving participant experience and data accuracy.
 To ensure security, scalability, and ease of integration, EventGo leverages trusted third-party services, most notably Firebase Authentication and Firestore Database, both from Google Firebase.
@@ -48,68 +48,16 @@ Firestore Database serves as a backup storage for check-in data. In addition to 
 The use of these external APIs not only accelerates development by handling complex backend tasks (authentication, syncing, cloud storage) but also provides industry-standard reliability and security. This makes EventGo highly adaptable for institutions looking for a low-maintenance, high-performance solution for event management.
 
 
-System Architecture
+## System Architecture
 
 High-Level Diagram: A visual representation (e.g., a block diagram) showing how all components interact: the two frontend apps, the backend server, the database, and any external services. This provides a clear overview of the distributed system.
 
 
-Backend Application
+## Backend Application
 
 Technology Stack: 
 
- Frontend Application
-Category
-Technology / Library
-Programming Language
-Java (17)
-UI Framework
-Java Swing
-QR Code Decoding
-ZXing (core, javase – v3.4.1)
-Webcam Integration
-Webcam Capture API (v0.3.12)
-HTTP Communication
-HttpURLConnection + Apache HttpClient
-JSON Parsing
-Jackson + org.json
-Styling
-FlatLaf
-Testing Framework
-JUnit 5 (junit-jupiter)
-IDE
-Eclipse IDE
-Authentication
-Firebase Authentication (ID token-based)
-
-
-Backend Application
-Category
-Technology / Library
-Programming Language
-Java (17)
-Framework
-Spring Boot 3.3.13
-ORM & Persistence
-Spring Data JPA
-Database
-MySQL (via mysql-connector-j)
-Build Tool
-Maven
-Web Framework
-Spring Boot Web (REST Controllers)
-Authentication
-Firebase Admin SDK (ID token validation)
-QR Code Handling
-ZXing (core, javase – v3.5.3)
-Testing Framework
-Spring Boot Test + Spring Security Test
-Application Packaging
-Spring Boot Maven Plugin
-IDE
-Eclipse IDE
-Version Control
-GitHub
-
+<img width="757" height="681" alt="image" src="https://github.com/user-attachments/assets/485b2571-8329-4cf7-99ff-150e911126a0" />
 
 
 API Documentation: 
