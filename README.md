@@ -80,19 +80,27 @@ Request Body:
   "role": "student"
 }  
 
-Success Response:
-Status: 200
-Body: "User registered successfully"
-Error Response:
-Status: 500
+Success Response:  
+
+Status: 200  
+
+Body: "User registered successfully"  
+
+Error Response:  
+
+Status: 500  
+
 Body: "Failed to register account: <error_message>"  
 
-2.2 POST /api/user/email
-Function: Retrieve user info by email.
+2.2 POST /api/user/email  
+
+Function: Retrieve user info by email.  
+
 Request Body:
 {
   "email": "john@example.com"
-}
+}  
+
 Success Response:
 {
   "userId": "U001",
@@ -100,7 +108,8 @@ Success Response:
   "email": "john@example.com",
   "role": "student",
   "createdAt": "2024-01-01T12:00:00"
-}
+}  
+
 Error Response:
 Status: 404
 Body: (no content)
@@ -108,8 +117,9 @@ Body: (no content)
 
 **3. Registration API**  
 
-3.1 POST /api/registration/{eventId}
-Function: Register a user to an event.
+3.1 POST /api/registration/{eventId} 
+
+Function: Register a user to an event.  
 Path Variable:
 eventId (integer)
 Headers:
