@@ -264,3 +264,58 @@ API Integration: Similar to the admin app, the student frontend communicates wit
 
 Entity-Relationship Diagram (ERD): A diagram showing the database tables, their columns (with data types), and the relationships between them (one-to-one, one-to-many).
 
+<img width="780" height="626" alt="image" src="https://github.com/user-attachments/assets/3812d1e9-187c-48a9-a82d-142f0094c280" />
+
+
+
+**Schema Justification:**
+
+The database schema for eventgo_db is structured to efficiently support an event registration and attendance system, emphasizing clear relationships, referential integrity, and extensibility. The key design decisions are as follows:  
+
+**Core Tables and Design Rationale:**
+
+<img width="766" height="554" alt="image" src="https://github.com/user-attachments/assets/c715d449-e94f-4af1-b42b-82f48abefb47" />
+
+**Relationships:**
+<img width="755" height="327" alt="image" src="https://github.com/user-attachments/assets/c68a552f-87e2-40d8-a22c-e351a79e2216" />
+
+These relationships ensure clean, normalized data and easy querying of participation, attendance stats, and user-event history.
+
+**View and Purpose:**
+
+<img width="786" height="404" alt="image" src="https://github.com/user-attachments/assets/42a017d7-ffcd-44b5-b87a-8d7416d32636" />
+
+Views are used to reduce complex JOIN queries in the backend logic, improving code clarity and performance.
+
+**Security and Data Integrity**
+Foreign Keys: Enforced on all major entity relationships (user_id, event_id, registration_id).
+
+
+Authentication Mapping: user_id maps to Firebase UID or student ID.
+
+
+QR Check-in System: Ensures check-ins are tied to event-specific tokens and valid registrations.
+
+Business Logic and Data Validation
+
+Use Case Diagrams/Flowcharts: Illustrate the main user flows, such as "selecting a book," "borrowing a book," and "returning a book." This visually demonstrates the business logic.
+
+Use Case diagram
+The Use Case Diagram provides a high-level overview of the interactions between different types of users (actors) and the core functionalities (use cases) of the EventGo application. It helps stakeholders understand who can perform what actions within the system.
+
+ Actors Involved:
+Admin: Responsible for managing events, reviewing registrations, generating QR codes, and analyzing attendance.
+Student: Can view events, register for them, and check in using QR codes.
+Staff: Handles on-site QR code scanning during check-in
+
+
+
+
+
+
+
+
+
+
+
+
