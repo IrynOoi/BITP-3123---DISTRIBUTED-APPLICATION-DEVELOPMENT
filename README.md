@@ -65,7 +65,8 @@ Technology Stack:
 **1.Security**
 All endpoints requiring user authentication use Firebase ID Token:
 Header: Authorization: Bearer <Firebase_ID_Token>
-The token is validated using Firebase Admin SDK to verify identity.
+The token is validated using Firebase Admin SDK to verify identity.  
+
 **2. User API**
 2.1 POST /api/user/register
 Function: Register a new user.
@@ -81,7 +82,8 @@ Status: 200
 Body: "User registered successfully"
 Error Response:
 Status: 500
-Body: "Failed to register account: <error_message>"
+Body: "Failed to register account: <error_message>"  
+
 2.2 POST /api/user/email
 Function: Retrieve user info by email.
 Request Body:
@@ -101,7 +103,8 @@ Status: 404
 Body: (no content)
 
 
-**3. Registration API**
+**3. Registration API**  
+
 3.1 POST /api/registration/{eventId}
 Function: Register a user to an event.
 Path Variable:
