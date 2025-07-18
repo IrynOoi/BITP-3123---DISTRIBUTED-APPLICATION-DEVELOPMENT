@@ -240,31 +240,50 @@ Request Body:
   "title": "AI Conference",
   "description": "A conference on AI",
   "date": "2025-09-10"
-}
-Success Response:
-Status: 200
-Body: "Activity published successfully"
-Error Response:
-Status: 500
+}  
+
+Success Response:  
+
+Status: 200  
+
+Body: "Activity published successfully"  
+
+Error Response:  
+
+Status: 500  
+
 Body: "Failed to publish activity"
 
-4.5 GET /api/events/available
+4.5 GET /api/events/available  
+
 Function: List events open for registration.
 
 **5. Check-in API**
-5.1 POST /api/checkin?qrToken=abc123
-Function: Check in a user to an event using QR token.
-Headers:
-Authorization: Bearer <Firebase_ID_Token>
-Success Response:
+5.1 POST /api/checkin?qrToken=abc123  
+
+Function: Check in a user to an event using QR token.  
+
+Headers:  
+
+Authorization: Bearer <Firebase_ID_Token>  
+
+Success Response:  
+
 Status: 200
-Body: "✅ Check-in successful"
-Error Responses:
-404: Not found
-403: Rejected/Pending registration
-500: Server error
-5.2 GET /api/checkin/signIn?event_id=1
-Function: Get a list of users who have checked in for the event.
+Body: "✅ Check-in successful"  
+
+Error Responses:  
+
+404: Not found  
+
+403: Rejected/Pending registration  
+
+500: Server error  
+
+5.2 GET /api/checkin/signIn?event_id=1  
+
+Function: Get a list of users who have checked in for the event.  
+
 Success Response:
 [
   {
