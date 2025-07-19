@@ -52,6 +52,7 @@ The use of these external APIs not only accelerates development by handling comp
 
 High-Level Diagram: A visual representation (e.g., a block diagram) showing how all components interact: the two frontend apps, the backend server, the database, and any external services. This provides a clear overview of the distributed system.
 
+<img width="940" height="520" alt="image" src="https://github.com/user-attachments/assets/da6f96ea-c499-4c02-ab71-d78fdda7f7a5" />
 
 ## Backend Application
 
